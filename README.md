@@ -7,9 +7,9 @@ These allowed to largelly reduce puppet run cycle times (90-95% time reduction)
 
 ## Requirements
 
-Perl
-Database supported by DBI
-Puppet Dashboard
+- Perl
+- Database supported by DBI
+- Puppet Dashboard
 
 ## Technical
 
@@ -32,7 +32,7 @@ Perl script that should be used has the puppet_node_classifier
 * PuppetClass - aggregates hosts and/or servertypes and associates "PuppetModule" 's to these.
 
 #### EXAMPLE (simplified):
-
+<pre>
 ServerType
     ID=1
     Name=Servers_X
@@ -61,40 +61,40 @@ PuppetClass
     ServerType=1
     Modules=1
     Modules=2
-
-Define 2 servers.
-Define 2 Modules/Classes.
-We apply both modules to Type Servers_X
-Due to the filter servers::ntp_server is only applied to servidor_1.
+</pre>
+- Defined 2 servers.
+- Defined 2 Modules/Classes.
+- We apply both modules to Type Servers_X
+- Due to the filter servers::ntp_server is only applied to servidor_1.
 
 The puppet_node_classifier should apply these:
-once every 24h* (default interval on script)
+- once every 24h* (default interval on script)
     OR
-if you change the updated_at in the PuppetModule record
+- if you change the updated_at in the PuppetModule record
     OR
-if one didn't previously apply successfuly
+- if one didn't previously apply successfuly
 
 #### Recommendation Puppet GIT repo
 Use a commit message like:
--------------------
+<pre>
 common::ntp
     Initial Commit
 
 servers::ntp_server
     NTP Server Initial Config
--------------------
+</pre>
  
 Then use a git commit hook to parse the classes and update the PuppetModule table, updated_at field with the current Timestamp
 
 ## Origin
 
-This prototype was hacked in one afternoon.
-It allowed us to be able to run puppet on atom cpu based computers.
-I applied about 2800 modifications to each of the 200 computers, initially.
-Previously, the run cycles would take > 20 minutes.
-After this, a normal cycle would take 1-2 minutes.
+- This prototype was hacked in one afternoon.
+- It allowed us to be able to run puppet on atom cpu based computers.
+- I applied about 2800 modifications to each of the 200 computers, initially.
+- Previously, the run cycles would take > 20 minutes.
+- After this, a normal cycle would take 1-2 minutes.
 
-When I left the project I was supporting about 800 computers.
+- When I left the project I was supporting about 800 computers.
 
 ## Improvements
 
